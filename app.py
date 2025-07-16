@@ -12,7 +12,7 @@ st.markdown("Stel de temperatuur in per dagdeel en zie hoeveel energie je verbru
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    woningtype = st.selectbox("Woningtype", ["Rijwoning", "Appartement", "halfopen", "Vrijstaand"])
+    woningtype = st.selectbox("Woningtype", ["Appartement", "Rijwoning", "Halfopen woning", "Vrijstaande woning"])
 with col2:
     isolatie = st.selectbox("Isolatieniveau", ["Slecht", "Matig", "Goed"])
 with col3:
@@ -26,15 +26,15 @@ st.subheader("🌤️ Thermostaatinstellingen per dagdeel")
 col_a, col_b, col_c, col_d, col_e = st.columns(5)
 
 with col_a:
-    nacht = st.slider("Nacht (23u–6u)", 14, 25, 16)
+    nacht = st.slider("Nacht (0u–6u)", 14, 22, 17)
 with col_b:
-    ochtend = st.slider("Ochtend (6u–9u)", 14, 25, 20)
+    ochtend = st.slider("Ochtend (6u–9u)", 14, 23, 20)
 with col_c:
-    voormiddag = st.slider("Voormiddag (9u–12u)", 14, 25, 17)
+    voormiddag = st.slider("Voormiddag (9u–12u)", 14, 23, 19)
 with col_d:
-    namiddag = st.slider("Namiddag (12u–17u)", 14, 25, 17)
+    namiddag = st.slider("Namiddag (12u–17u)", 14, 23, 19)
 with col_e:
-    avond = st.slider("Avond (17u–23u)", 14, 25, 20)
+    avond = st.slider("Avond (17u–23u)", 14, 23, 21)
 
 # 🔄 Dagcurve opbouwen op basis van dagdelen
 dagcurve = []
@@ -47,7 +47,7 @@ for uur in range(24):
         dagcurve.append(voormiddag)
     elif 12 <= uur < 17:
         dagcurve.append(namiddag)
-    else:  # 17u–23u
+    else:
         dagcurve.append(avond)
 
 # 🔘 Simulatie starten
@@ -67,8 +67,21 @@ if st.button("🔍 Simuleer energieverbruik"):
         verbruik = delta * oppervlakte * 0.0005 * isolatiefactor * gedragfactor
         verbruik_per_uur.append(verbruik)
 
-    totaal_kwh = sum(verbruik_per_uur)
-    st.success(f"💡 Geschat dagelijks verbruik: **{totaal_kwh:.2f} kWh**")
+    totaal_kwh_per_dag = sum(verbruik_per_uur)
+    jaarverbruik = totaal_kwh_per_dag * 365
+
+    # ⚖️ Gemiddeld jaarverbruik per woningtype
+    gemiddeld_per_type = {
+        "Appartement": 9500,
+        "Rijwoning": 11500,
+        "Halfopen woning": 14500,
+        "Vrijstaande woning": 22000
+    }
+    gemiddeld_verbruik = gemiddeld_per_type[woningtype]
+
+    st.success(f"💡 Geschat dagelijks verbruik: **{totaal_kwh_per_dag:.2f} kWh**")
+    st.info(f"📆 Geschat jaarlijks verbruik: **{jaarverbruik:.0f} kWh**")
+    st.markdown(f"⚖️ Gemiddeld jaarverbruik voor een {woningtype.lower()} in Vlaanderen: **{gemiddeld_verbruik} kWh**")
 
     # 📊 Dataframe + grafieken
     df = pd.DataFrame({
