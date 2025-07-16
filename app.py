@@ -26,7 +26,7 @@ st.subheader("🌤️ Thermostaatinstellingen per dagdeel")
 col_a, col_b, col_c, col_d, col_e = st.columns(5)
 
 with col_a:
-    nacht = st.slider("Nacht (0u–6u)", 14, 25, 17)
+    nacht = st.slider("Nacht (22u–6u)", 14, 25, 17)
 with col_b:
     ochtend = st.slider("Ochtend (6u–9u)", 14, 25, 20)
 with col_c:
@@ -34,7 +34,7 @@ with col_c:
 with col_d:
     namiddag = st.slider("Namiddag (12u–17u)", 14, 25, 19)
 with col_e:
-    avond = st.slider("Avond (17u–23u)", 14, 25, 21)
+    avond = st.slider("Avond (17u–22u)", 14, 25, 21)
 
 # 🔄 Dagcurve opbouwen op basis van dagdelen
 dagcurve = []
