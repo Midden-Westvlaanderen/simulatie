@@ -12,7 +12,7 @@ st.markdown("Stel de temperatuur in per dagdeel en zie hoeveel energie je verbru
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    woningtype = st.selectbox("Woningtype", ["Rijwoning", "Appartement", "Vrijstaand"])
+    woningtype = st.selectbox("Woningtype", ["Rijwoning", "Appartement", "halfopen", "Vrijstaand"])
 with col2:
     isolatie = st.selectbox("Isolatieniveau", ["Slecht", "Matig", "Goed"])
 with col3:
